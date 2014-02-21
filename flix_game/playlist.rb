@@ -1,4 +1,6 @@
 require_relative 'movie'
+require_relative 'waldorf_and_statler'
+require_relative 'snack_bar'
 
 class Playlist
 
@@ -11,26 +13,39 @@ class Playlist
     @movies << a_movie
   end
 
-  def roll_die
-    rand(1..6)
-  end
-
-  def play
+  def play(viewings)
     puts "#{@name}'s playlist:"
-    puts @movies
-    @movies.each do |movie|
-      number_rolled = roll_die
-      case number_rolled
-      when 1..2
-        movie.thumbs_down
-        puts "#{movie.title} got a thumbs down."
-      when 3..4
-        puts "#{movie.title} was skipped."
-      else
-        movie.thumbs_up
-        puts "#{movie.title} got a thumbs up!"
+    
+    puts @movies.sort
+    
+    snacks = SnackBar::SNACKS
+    puts "\nThere are #{snacks.size} snacks available in the snack bar."
+    
+    snacks.each do |snack|
+      puts "#{snack.name} has #{snack.carbs} carbs"
+    end
+    1.upto(viewings) do |count|
+      puts "\nViewing #{count}:"
+      @movies.each do |movie|
+        WaldorfAndStatler.review(movie)
+        snack = SnackBar.random
+        puts "#{movie.title} led to #{snack.carbs} #{snack.name} carbs being consumed."
+        puts movie
       end
     end
   end
 
+  def print_stats
+    puts "\n#{@name}'s Stats:"
+    
+    hits, flops = @movies.partition { |movie| movie.hit? }
+    
+    puts "\nHits:"
+    puts hits.sort
+    
+    puts "\nFlops:"
+    puts flops.sort
+  end
+
 end
+

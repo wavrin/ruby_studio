@@ -10,12 +10,5 @@ playlist = Playlist.new("Kermit")
 playlist.add_movie(movie1)
 playlist.add_movie(movie2)
 playlist.add_movie(movie3)
-playlist.play
-
-# Second playlist
-
-playlist2 = Playlist.new("Fozzie")
-playlist2.add_movie(movie1)
-movie4 = Movie.new("Gremlins", 1)
-playlist2.add_movie(movie4)
-playlist2.play
+playlist.play(3)
+playlist.print_stats
